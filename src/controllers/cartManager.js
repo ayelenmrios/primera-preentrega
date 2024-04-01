@@ -2,14 +2,12 @@ const fs = require("fs").promises;
 
 class cartManager {
     constructor(archivo){
-        //
         this.carts = [];
         this.path = archivo;
         this.lastId = 0;
-
-        // Cargo los carritos que estan en enl archivo:
         this.cargarCarritos();
     }
+
     //////////////////////////
     async cargarCarritos(){
         try{
@@ -29,7 +27,7 @@ class cartManager {
     }
 
     async crearCarrito(){
-        // Array
+        // Array productos
         const nuevoCarrito = {
             id: ++this.lastId, 
             productos: []
@@ -49,9 +47,21 @@ class cartManager {
     }
     /////////////////////////
     // REVISAR --------------
-    // async agregarProductoCarrito(carroId, productoId, cantidad){
-    //     // 
-    // }
+    // Agregar producto al carrito
+    async agregarProdCarrito(carroId, prodId, cant = 1){
+        const carrito = await this.getCarritoById(carroId);
+        const prodExistente = carrito.productos.find(p => p.producto === prodId);
+
+        if(prodExistente){
+            prodExistente.quantity += quantity;
+        } else{
+            carrito.productos.push({producto: prodId, quantity});
+        }
+        
+        await this.guardarCarritos();
+        return carrito;
+
+    }
 }
 
 // Exportación de la clase

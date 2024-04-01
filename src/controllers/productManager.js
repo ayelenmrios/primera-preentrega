@@ -40,8 +40,11 @@ class ProductManager {
         this.products.push(newProduct);
         await this.guardarArchivos(this.products);
     }
+
     /////////////////////////////////
     // MÉTODOS
+
+    // Método get invoca método leerProductos
     async getProducts(){
         const lectura = await this.leerProductos();
         return lectura;
@@ -85,6 +88,7 @@ class ProductManager {
             console.log("Ese id no existe");
         }
     }
+
     // Borrar producto del array
     async deleteProduct(id) {
         try {
@@ -107,9 +111,8 @@ class ProductManager {
         }
     }
 
-    //////////////////////////
 }
-//////////////////////////////////////
+
 const ruta = new ProductManager("./archivoProductos.json");
 
 // Exportación

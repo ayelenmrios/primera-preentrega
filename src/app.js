@@ -2,12 +2,11 @@ const express = require("express");
 const app = express();
 const PUERTO = 8080;
 const productsRouter = require("./routes/products.router");
+const cartRouter = require("./routes/carts.router.js");
 
-// Middleware
-app.use(express.json())
-app.use(express.urlencoded({extended:true}))
-
-/////////////////
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+///////////////// 
 // Ruta de prueba:
 app.get("/", (request, response) => {
     response.send("Hola, probando servidor");
@@ -15,6 +14,7 @@ app.get("/", (request, response) => {
 /////////////////////////////////
 // Rutas
 app.use("/api", productsRouter);
+app.use("/api", cartRouter);
 
 /////////////////////////////
 // Inicializo el servidor -- Ultima línea

@@ -1,10 +1,12 @@
 const express = require("express");
 const router = express.Router();
-
 const ProductManager = require("../controllers/productManager.js");
 const manager = new ProductManager("./src/models/archivoProductos.json");
+///////////////////////////////
 
-// Obtengo todos los prodcutos del JSON
+// MANEJO DE PRODUCTOS
+
+// Ruta raíz GET
 router.get("/products", async (request, response) => {
     const limit = request.query.limit;
 
@@ -16,7 +18,8 @@ router.get("/products", async (request, response) => {
     }
    
 })
-// Obtener un producto por id
+
+// Ruta GET /:pid
 router.get("/products/:pid", async (request, response) => {
     const id = request.params.pid;
 
@@ -28,17 +31,8 @@ router.get("/products/:pid", async (request, response) => {
     }
     response.json(producto);
 })
-// Agregar un nuevo producto
-router.post("/products", async (request, response) => {
-    const nuevoProducto = request.body;
-    try {
-        await manager.addProduct(nuevoProducto);
-        response.status(200).json({message: "Se agregó un nuevo producto!"});
-    } catch (error){
-        response.status(500).json({error: "Error interno del servidor"});
-    }
-})
-// Actrualizar por id
+
+// Ruta PUT /:pid
 router.put("/products/:pid", async (request, response) => {
     const id = request.params.pid;
     const productoActualizado = request.body;
@@ -52,8 +46,8 @@ router.put("/products/:pid", async (request, response) => {
         response.status(500).json({error: "Error interno del servidor"});
     }
 })
-// Eliminar producto
 
+// Ruta DELETE /:pid
 router.delete("/products/:pid", async (request, response) => {
     const id = request.params.pid;
 
@@ -62,6 +56,17 @@ router.delete("/products/:pid", async (request, response) => {
         response.json({message: "Producto eliminado muy bien!"});
     } catch (error){
         response.status(500).json({error: "Erro interno del servidor"});
+    }
+})
+
+// Ruta POST 
+router.post("/products", async (request, response) => {
+    const nuevoProducto = request.body;
+    try {
+        await manager.addProduct(nuevoProducto);
+        response.status(200).json({message: "Se agregó un nuevo producto!"});
+    } catch (error){
+        response.status(500).json({error: "Error interno del servidor"});
     }
 })
 
